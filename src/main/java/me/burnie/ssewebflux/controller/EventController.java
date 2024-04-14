@@ -3,6 +3,8 @@ package me.burnie.ssewebflux.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.burnie.ssewebflux.model.SampleEvent;
+import me.burnie.ssewebflux.service.EventLinker;
+import me.burnie.ssewebflux.service.EventProvider;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -15,16 +17,17 @@ public class EventController {
 
     private final Sinks.Many<SampleEvent> eventSink;
     private final Flux<SampleEvent> eventFlux;
+    private final EventLinker eventLinker;
 
     /**
-     * For Publising Event
+     * For publishing Event
      * @param sampleEvent
      * @return
      */
 
     @PostMapping("/update")
     public Mono<Void> updateEvent(@RequestBody SampleEvent sampleEvent){
-        eventSink.tryEmitNext(sampleEvent);
+        eventLinker.publishEvent(sampleEvent);
         return Mono.empty();
     }
 
@@ -32,6 +35,5 @@ public class EventController {
     public Flux<SampleEvent> getGameUpdates() {
         return this.eventFlux;
     }
-
 
 }

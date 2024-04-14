@@ -11,6 +11,9 @@ import reactor.core.publisher.Sinks;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * 이벤트 subscriber Configuration
+ */
 @Configuration
 @Slf4j
 public class FluxConfig {
